@@ -367,3 +367,188 @@ body {
 .animate-shake {
   animation: shake 0.5s ease-in-out;
 }
+
+/* ==================== */
+/*   MOBILE UTILITIES   */
+/* ==================== */
+
+/* Safe Area Support for iOS */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Smooth touch scrolling */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+
+/* No tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch-friendly button sizing */
+@media (max-width: 768px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .glass-card {
+    @apply rounded-2xl p-4;
+  }
+
+  /* Larger text on mobile for readability */
+  .text-xs {
+    font-size: 0.75rem;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+  }
+
+  /* Tighter spacing on mobile */
+  .space-y-6>*+* {
+    margin-top: 1rem;
+  }
+
+  .space-y-8>*+* {
+    margin-top: 1.25rem;
+  }
+}
+
+/* Mobile card hover removal (no hover on touch) */
+@media (hover: none) {
+  .glass-card:hover {
+    transform: none;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .glass-card-premium:hover {
+    transform: none;
+  }
+}
+
+/* Pull to refresh indicator area */
+.pull-indicator {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* Active press state for mobile */
+.press-scale:active {
+  transform: scale(0.98);
+}
+
+/* Swipe hint animation */
+@keyframes swipe-hint {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-swipe-hint {
+  animation: swipe-hint 1.5s ease-in-out infinite;
+}
+
+/* Mobile modal background */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+}
+
+/* Bottom sheet animation */
+@keyframes slide-up-sheet {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-sheet-up {
+  animation: slide-up-sheet 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive text sizes */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* Hide scrollbar on mobile but keep functionality */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Floating Action Button */
+.fab {
+  position: fixed;
+  right: 1rem;
+  bottom: 5rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(74, 144, 226, 0.4);
+  z-index: 40;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+.fab:hover {
+  box-shadow: 0 12px 32px rgba(74, 144, 226, 0.5);
+}
+
+@media (min-width: 768px) {
+  .fab {
+    display: none;
+  }
+}
