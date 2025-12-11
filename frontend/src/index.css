@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light Theme */
+  --color-primary: #4A90E2;
+  --color-secondary: #50E3C2;
+  --color-accent: #F5A623;
+  --color-background: #F0F4F8;
+  --color-surface: rgba(255, 255, 255, 0.7);
+  --color-text-primary: #1A202C;
+  --color-text-secondary: #718096;
+  --color-success: #48BB78;
+  --color-error: #F56565;
+  --color-warning: #ED8936;
+  --color-info: #4299E1;
+}
+
+.dark {
+  /* Dark Theme */
+  --color-primary: #63B3ED;
+  --color-secondary: #4FD1C5;
+  --color-accent: #F6AD55;
+  --color-background: #1A202C;
+  --color-surface: rgba(45, 55, 72, 0.7);
+  --color-text-primary: #F7FAFC;
+  --color-text-secondary: #A0AEC0;
+  --color-success: #68D391;
+  --color-error: #FC8181;
+  --color-warning: #F6E05E;
+  --color-info: #63B3ED;
+}
+
+body {
+  @apply bg-background text-text-primary antialiased transition-colors duration-300;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  @apply bg-surface backdrop-blur-md border border-white/20 shadow-lg;
+}
+
+.glass-card {
+  @apply glass rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+}
+
+.glass-input {
+  @apply bg-white/50 backdrop-blur-sm border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full hover:bg-gray-400;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-gray-600 hover:bg-gray-500;
+}
+
+/* Card Flip Animation - for CopingCards */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Slow Bounce Animation - for Achievements */
+@keyframes bounce-slow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* Pulse Slow Animation - for Sobriety Counter */
+@keyframes pulse-slow {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* Fade In Animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Slide Up Animation */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
