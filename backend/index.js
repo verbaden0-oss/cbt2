@@ -11,8 +11,26 @@ const pool = require('./db/db');
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// CORS configuration for production
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 app.use(express.json());
+
+// Health check endpoint for Render
+app.get('/api/health', async (req, res) => {
+  try {
+    await pool.query('SELECT 1');
+    res.status(200).json({ status: 'healthy', database: 'connected' });
+  } catch (err) {
+    res.status(503).json({ status: 'unhealthy', database: 'disconnected' });
+  }
+});
 
 // Request Logging Middleware
 app.use((req, res, next) => {

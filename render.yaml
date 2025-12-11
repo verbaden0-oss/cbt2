@@ -8,8 +8,10 @@ services:
     runtime: node
     region: frankfurt
     plan: free
-    buildCommand: cd backend && npm install
-    startCommand: cd backend && npm start
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
@@ -19,6 +21,8 @@ services:
         fromDatabase:
           name: cbt-db
           property: connectionString
+      - key: CORS_ORIGIN
+        value: https://cbt-frontend.onrender.com
 
   # Frontend (Static Site)
   - type: web
@@ -26,14 +30,19 @@ services:
     runtime: static
     region: frankfurt
     plan: free
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/build
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: build
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /index.html
+        name: Cache-Control
+        value: no-cache
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: cbt-backend
-          property: host
+        value: https://cbt-backend.onrender.com
     routes:
       - type: rewrite
         source: /*
@@ -46,3 +55,4 @@ databases:
     plan: free
     databaseName: cbt_therapy
     user: cbt_user
+    ipAllowList: []
