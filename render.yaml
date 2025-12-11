@@ -31,10 +31,16 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: build
     headers:
-      - path: /*
+      - path: /static/*
         name: Cache-Control
         value: public, max-age=31536000, immutable
       - path: /index.html
+        name: Cache-Control
+        value: no-cache, no-store, must-revalidate
+      - path: /service-worker.js
+        name: Cache-Control
+        value: no-cache, no-store, must-revalidate
+      - path: /manifest.json
         name: Cache-Control
         value: no-cache
     envVars:
