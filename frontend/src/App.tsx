@@ -11,6 +11,7 @@ import Breathing from './pages/Breathing';
 import Grounding from './pages/Grounding';
 import CopingCards from './pages/CopingCards';
 import Achievements from './pages/Achievements';
+import SOSMode from './pages/SOSMode';
 import Layout from './components/Layout';
 
 function App() {
@@ -30,9 +31,14 @@ function App() {
           <Route path="grounding" element={<Grounding />} />
           <Route path="coping-cards" element={<CopingCards />} />
           <Route path="achievements" element={<Achievements />} />
+          <Route path="sos" element={<SOSMode />} />
         </Route>
       </Routes>
     </BrowserRouter>
+  );
+}
+      </Routes >
+    </BrowserRouter >
   );
 }
 
