@@ -3,14 +3,22 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const pool = new Pool({
-    user: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_PORT || 5432,
-    database: process.env.POSTGRES_DB,
-    ssl: process.env.POSTGRES_SSL === 'true' ? { rejectUnauthorized: false } : false,
-});
+// Support both DATABASE_URL (Render) and individual env vars (local development)
+const pool = process.env.DATABASE_URL
+    ? new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    })
+    : new Pool({
+        user: process.env.POSTGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
+        host: process.env.POSTGRES_HOST || 'localhost',
+        port: parseInt(process.env.POSTGRES_PORT || '5432'),
+        database: process.env.POSTGRES_DB,
+        ssl: process.env.POSTGRES_SSL === 'true' ? { rejectUnauthorized: false } : false,
+    });
 
 pool.on('connect', () => {
     console.log('Connected to PostgreSQL database');

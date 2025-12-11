@@ -20,7 +20,13 @@ export const useSobrietyStore = create<SobrietyState>((set, get) => ({
     fetchLog: async () => {
         try {
             const res = await client.get('/sobriety');
-            set({ log: res.data });
+            const data = res.data;
+            if (data && typeof data === 'object' && !Array.isArray(data) && typeof data !== 'string') {
+                set({ log: data });
+            } else {
+                console.error('fetchLog: unexpected response format');
+                set({ log: null });
+            }
         } catch (err: any) {
             if (err.response && err.response.status === 404) {
                 set({ log: null });

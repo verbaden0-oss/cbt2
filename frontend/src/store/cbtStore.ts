@@ -19,7 +19,13 @@ export const useCBTStore = create<CBTState>((set, get) => ({
     fetchExercises: async () => {
         try {
             const res = await client.get('/cbt');
-            set({ exercises: res.data });
+            // Safety: check if response is actually an array
+            if (Array.isArray(res.data)) {
+                set({ exercises: res.data });
+            } else {
+                console.error('fetchExercises: expected array, got:', typeof res.data);
+                set({ exercises: [] });
+            }
         } catch (err) {
             console.error('fetchExercises error', err);
         }

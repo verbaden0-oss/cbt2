@@ -20,7 +20,15 @@ export const useJournalStore = create<JournalState>((set, get) => ({
   fetchEntries: async () => {
     try {
       const res = await client.get('/journals');
-      set({ entries: res.data.entries || [] });
+      const data = res.data;
+      if (data && Array.isArray(data.entries)) {
+        set({ entries: data.entries });
+      } else if (Array.isArray(data)) {
+        set({ entries: data });
+      } else {
+        console.error('fetchEntries: unexpected response format');
+        set({ entries: [] });
+      }
     } catch (err) {
       console.error('fetchEntries error', err);
     }

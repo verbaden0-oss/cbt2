@@ -20,7 +20,12 @@ export const useTriggersStore = create<TriggersState>((set, get) => ({
     fetchTriggers: async () => {
         try {
             const res = await client.get('/triggers');
-            set({ triggers: res.data });
+            if (Array.isArray(res.data)) {
+                set({ triggers: res.data });
+            } else {
+                console.error('fetchTriggers: expected array, got:', typeof res.data);
+                set({ triggers: [] });
+            }
         } catch (err) {
             console.error('fetchTriggers error', err);
         }
