@@ -12,6 +12,9 @@ import Grounding from './pages/Grounding';
 import CopingCards from './pages/CopingCards';
 import Achievements from './pages/Achievements';
 import SOSMode from './pages/SOSMode';
+import CognitiveDistortions from './pages/CognitiveDistortions';
+import ABCAnalysis from './pages/ABCAnalysis';
+import UrgeSurfing from './pages/UrgeSurfing';
 import Layout from './components/Layout';
 
 function App() {
@@ -32,13 +35,12 @@ function App() {
           <Route path="coping-cards" element={<CopingCards />} />
           <Route path="achievements" element={<Achievements />} />
           <Route path="sos" element={<SOSMode />} />
+          <Route path="distortions" element={<CognitiveDistortions />} />
+          <Route path="abc" element={<ABCAnalysis />} />
+          <Route path="urge-surfing" element={<UrgeSurfing />} />
         </Route>
       </Routes>
     </BrowserRouter>
-  );
-}
-      </Routes >
-    </BrowserRouter >
   );
 }
 

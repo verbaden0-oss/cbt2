@@ -9,30 +9,21 @@ router.use(authMiddleware);
 router.get('/', async (req, res) => {
     const userId = req.userId;
     try {
+        // Use array_agg to collect trigger IDs into an array
         const result = await pool.query(
-            `SELECT id, date, mood_rating, note, trigger_ids, created_at
-            FROM journals
-            WHERE user_id = $1
-            ORDER BY date DESC`,
+            `SELECT j.id, j.date, j.mood_rating, j.note, j.created_at, 
+                    COALESCE(json_agg(t.id) FILTER (WHERE t.id IS NOT NULL), '[]') as trigger_ids,
+                    COALESCE(json_agg(json_build_object('id', t.id, 'name', t.name, 'category', t.category)) FILTER (WHERE t.id IS NOT NULL), '[]') as triggers
+             FROM journals j
+             LEFT JOIN journal_triggers jt ON j.id = jt.journal_id
+             LEFT JOIN triggers t ON jt.trigger_id = t.id
+             WHERE j.user_id = $1
+             GROUP BY j.id
+             ORDER BY j.date DESC`,
             [userId]
         );
 
-        // Parse trigger_ids if they are stored as JSON string
-        const entries = result.rows.map(row => {
-            let triggers = [];
-            if (row.trigger_ids) {
-                try {
-                    triggers = typeof row.trigger_ids === 'string'
-                        ? JSON.parse(row.trigger_ids)
-                        : row.trigger_ids;
-                } catch (e) {
-                    triggers = [];
-                }
-            }
-            return { ...row, triggers };
-        });
-
-        res.json({ entries });
+        res.json({ entries: result.rows });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Server error' });
@@ -44,19 +35,36 @@ router.post('/', async (req, res) => {
     const userId = req.userId;
     const { date, mood_rating, note, trigger_ids } = req.body;
 
+    const client = await pool.connect();
     try {
-        const triggersJson = trigger_ids ? JSON.stringify(trigger_ids) : '[]';
+        await client.query('BEGIN');
 
-        const result = await pool.query(
-            `INSERT INTO journals (user_id, date, mood_rating, note, trigger_ids)
-             VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-            [userId, date || new Date().toISOString(), mood_rating, note, triggersJson]
+        // 1. Insert Journal Entry
+        const journalResult = await client.query(
+            `INSERT INTO journals (user_id, date, mood_rating, note)
+             VALUES ($1, $2, $3, $4) RETURNING id`,
+            [userId, date || new Date().toISOString(), mood_rating, note]
         );
+        const journalId = journalResult.rows[0].id;
 
-        res.status(201).json({ id: result.rows[0].id, message: 'Entry created' });
+        // 2. Insert Triggers (if any)
+        if (trigger_ids && Array.isArray(trigger_ids) && trigger_ids.length > 0) {
+            const values = trigger_ids.map((tid, index) => `($1, $${index + 2})`).join(',');
+            // $1 is journalId, $2... are triggerIds
+            await client.query(
+                `INSERT INTO journal_triggers (journal_id, trigger_id) VALUES ${values}`,
+                [journalId, ...trigger_ids]
+            );
+        }
+
+        await client.query('COMMIT');
+        res.status(201).json({ id: journalId, message: 'Entry created' });
     } catch (err) {
+        await client.query('ROLLBACK');
         console.error(err);
         res.status(500).json({ error: 'Server error while creating journal entry' });
+    } finally {
+        client.release();
     }
 });
 

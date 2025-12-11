@@ -86,12 +86,13 @@ export default function Breathing() {
         setPhase(prev => {
             switch (prev) {
                 case 'idle':
+                // falls through
                 case 'inhale':
                     if (selectedPattern.hold > 0) {
                         setTimeLeft(selectedPattern.hold);
                         return 'hold';
                     }
-                // fall through
+                // falls through
                 case 'hold':
                     setTimeLeft(selectedPattern.exhale);
                     return 'exhale';
@@ -100,7 +101,7 @@ export default function Breathing() {
                         setTimeLeft(selectedPattern.holdEmpty);
                         return 'holdEmpty';
                     }
-                // fall through
+                // falls through
                 case 'holdEmpty':
                     setCurrentCycle(c => c + 1);
                     setTimeLeft(selectedPattern.inhale);

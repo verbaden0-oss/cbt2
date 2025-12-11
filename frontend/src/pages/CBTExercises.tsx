@@ -48,26 +48,46 @@ export default function CBTExercises() {
                 </p>
             </div>
 
-            {/* Quick Techniques Links */}
-            <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <a href="/abc" className="block">
+                    <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
+                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">⚡</div>
+                        <h3 className="font-bold text-sm">ABC Анализ</h3>
+                        <p className="text-xs text-text-secondary">Разбор ситуаций</p>
+                    </Card>
+                </a>
+                <a href="/urge-surfing" className="block">
+                    <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
+                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🌊</div>
+                        <h3 className="font-bold text-sm">Сёрфинг тяги</h3>
+                        <p className="text-xs text-text-secondary">Переждать волну</p>
+                    </Card>
+                </a>
+                <a href="/distortions" className="block">
+                    <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
+                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🧠</div>
+                        <h3 className="font-bold text-sm">Ловушки мышления</h3>
+                        <p className="text-xs text-text-secondary">Ошибки игрока</p>
+                    </Card>
+                </a>
                 <a href="/breathing" className="block">
-                    <Card className="text-center hover:border-primary/50 transition-all group">
+                    <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
                         <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🌬️</div>
-                        <h3 className="font-bold">Дыхание</h3>
+                        <h3 className="font-bold text-sm">Дыхание</h3>
                         <p className="text-xs text-text-secondary">4-7-8, Коробочное</p>
                     </Card>
                 </a>
                 <a href="/grounding" className="block">
-                    <Card className="text-center hover:border-primary/50 transition-all group">
+                    <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
                         <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🌍</div>
-                        <h3 className="font-bold">Заземление</h3>
+                        <h3 className="font-bold text-sm">Заземление</h3>
                         <p className="text-xs text-text-secondary">Техника 5-4-3-2-1</p>
                     </Card>
                 </a>
                 <a href="/coping-cards" className="block">
-                    <Card className="text-center hover:border-primary/50 transition-all group">
+                    <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
                         <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🃏</div>
-                        <h3 className="font-bold">Копинг-карточки</h3>
+                        <h3 className="font-bold text-sm">Копинг-карточки</h3>
                         <p className="text-xs text-text-secondary">Быстрые ответы</p>
                     </Card>
                 </a>

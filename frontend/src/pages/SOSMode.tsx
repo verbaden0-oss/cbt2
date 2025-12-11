@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-    Wind, Phone, Heart, Clock, ArrowLeft,
-    Check, AlertTriangle, Lightbulb, Shield
+    Wind, Heart, Clock, ArrowLeft,
+    AlertTriangle, Lightbulb, Shield
 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
