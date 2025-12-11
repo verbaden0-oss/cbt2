@@ -66,7 +66,6 @@ async function ensureTables() {
         user_id INTEGER,
         date TIMESTAMPTZ NOT NULL,
         mood_rating INTEGER,
-        trigger_ids JSONB,
         note TEXT,
         created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -101,7 +100,25 @@ async function ensureTables() {
         user_id INTEGER,
         name TEXT NOT NULL,
         category TEXT,
+        count INTEGER DEFAULT 0,
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+      );
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS journal_triggers (
+        journal_id INTEGER REFERENCES journals(id) ON DELETE CASCADE,
+        trigger_id INTEGER REFERENCES triggers(id) ON DELETE CASCADE,
+        PRIMARY KEY (journal_id, trigger_id)
+      );
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS Achievements (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES Users(id) ON DELETE CASCADE,
+        badge_type VARCHAR(100) NOT NULL,
+        earned_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
