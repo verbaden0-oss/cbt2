@@ -39,8 +39,9 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ error: 'Mood rating must be between 1 and 10' });
     }
 
-    const client = await pool.connect();
+    let client;
     try {
+        client = await pool.connect();
         await client.query('BEGIN');
 
         // 1. Insert Journal Entry
@@ -64,11 +65,11 @@ router.post('/', async (req, res) => {
         await client.query('COMMIT');
         res.status(201).json({ id: journalId, message: 'Entry created' });
     } catch (err) {
-        await client.query('ROLLBACK');
+        if (client) await client.query('ROLLBACK');
         console.error(err);
         res.status(500).json({ error: 'Server error while creating journal entry' });
     } finally {
-        client.release();
+        if (client) client.release();
     }
 });
 
