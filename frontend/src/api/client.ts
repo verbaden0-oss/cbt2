@@ -8,7 +8,7 @@ const isLocalhost = window.location.hostname === 'localhost' ||
 
 const API_BASE = process.env.REACT_APP_API_URL 
   ? process.env.REACT_APP_API_URL
-  : (isLocalhost ? 'http://localhost:4000' : 'https://cbt-backend-6ewd.onrender.com');
+  : (isLocalhost ? 'http://localhost:4000' : 'https://cbt-backend.onrender.com');
 
 function getTokenFromStorage(): string | null {
   try {
