@@ -9,6 +9,8 @@ import { SwipeableCard } from '../components/ui/SwipeableCard';
 
 export default function Journal() {
   const entries = useJournalStore((s) => s.entries);
+  const isLoading = useJournalStore((s) => s.isLoading);
+  const isSaving = useJournalStore((s) => s.isSaving);
   const fetchEntries = useJournalStore((s) => s.fetchEntries);
   const addEntry = useJournalStore((s) => s.addEntry);
   const deleteEntry = useJournalStore((s) => s.deleteEntry);
@@ -21,6 +23,7 @@ export default function Journal() {
   const [urgeHandled, setUrgeHandled] = useState(false);
   const [selectedTriggers, setSelectedTriggers] = useState<number[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchEntries();
@@ -204,16 +207,52 @@ export default function Journal() {
               </div>
             )}
 
-            <Button type="submit" fullWidth variant="gradient">
-              Сохранить
+            <Button type="submit" fullWidth variant="gradient" disabled={isSaving}>
+              {isSaving ? 'Сохранение...' : 'Сохранить'}
             </Button>
           </form>
         </Card>
       )}
 
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmId && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="max-w-md w-full">
+            <h3 className="text-lg font-bold mb-2">Удалить запись?</h3>
+            <p className="text-text-secondary mb-4">Это действие нельзя отменить.</p>
+            <div className="flex gap-3">
+              <Button
+                variant="secondary"
+                fullWidth
+                onClick={() => setDeleteConfirmId(null)}
+              >
+                Отмена
+              </Button>
+              <Button
+                variant="primary"
+                fullWidth
+                onClick={() => {
+                  if (deleteConfirmId) {
+                    deleteEntry(deleteConfirmId);
+                    setDeleteConfirmId(null);
+                  }
+                }}
+              >
+                Удалить
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
+
       {/* Entries List */}
       <div className="space-y-3">
-        {entries.length === 0 ? (
+        {isLoading ? (
+          <Card className="text-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+            <p className="text-text-secondary">Загрузка записей...</p>
+          </Card>
+        ) : entries.length === 0 ? (
           <Card className="text-center py-8 text-text-secondary">
             <BookOpen className="w-8 h-8 mx-auto mb-2 opacity-50" />
             <p>Пока нет записей</p>
@@ -224,7 +263,7 @@ export default function Journal() {
           entries.map((e) => (
             <SwipeableCard
               key={e.id}
-              onDelete={() => e.id && deleteEntry(e.id)}
+              onDelete={() => e.id && setDeleteConfirmId(e.id)}
               className="mb-3"
             >
               <Card className="press-scale border-none shadow-none">

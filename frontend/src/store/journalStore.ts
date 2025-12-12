@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import client from '../api/client';
+import { useToastStore } from './toastStore';
 
 interface JournalEntry {
   id?: number;
@@ -11,6 +12,8 @@ interface JournalEntry {
 
 interface JournalState {
   entries: JournalEntry[];
+  isLoading: boolean;
+  isSaving: boolean;
   fetchEntries: () => Promise<void>;
   addEntry: (entry: JournalEntry) => Promise<void>;
   deleteEntry: (id: number) => Promise<void>;
@@ -18,7 +21,10 @@ interface JournalState {
 
 export const useJournalStore = create<JournalState>((set, get) => ({
   entries: [],
+  isLoading: false,
+  isSaving: false,
   fetchEntries: async () => {
+    set({ isLoading: true });
     try {
       const res = await client.get('/journals');
       const data = res.data;
@@ -29,37 +35,57 @@ export const useJournalStore = create<JournalState>((set, get) => ({
       } else {
         console.error('fetchEntries: unexpected response format');
         set({ entries: [] });
+        useToastStore.getState().error('Ошибка загрузки записей');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('fetchEntries error', err);
+      const errorMsg = err?.response?.data?.error || err?.message || 'Ошибка загрузки';
+      useToastStore.getState().error(`Не удалось загрузить записи: ${errorMsg}`);
+    } finally {
+      set({ isLoading: false });
     }
   },
   addEntry: async (entry) => {
+    set({ isSaving: true });
+    const previousEntries = get().entries;
     try {
       await client.post('/journals', entry);
-      // optimistic fetch
-      get().fetchEntries();
-    } catch (err) {
+      await get().fetchEntries();
+      useToastStore.getState().success('Запись добавлена');
+    } catch (err: any) {
       console.error('addEntry error', err);
+      // Revert to previous state
+      set({ entries: previousEntries });
+      const errorMsg = err?.response?.data?.error || err?.message || 'Ошибка сохранения';
+      useToastStore.getState().error(`Не удалось сохранить запись: ${errorMsg}`);
+    } finally {
+      set({ isSaving: false });
     }
   },
   deleteEntry: async (id: number) => {
+    const entryToDelete = get().entries.find(e => e.id === id);
+    // Optimistic update
+    set(state => ({
+      entries: state.entries.filter(e => e.id !== id)
+    }));
+    
     try {
-      // Optimistic update
-      set(state => ({
-        entries: state.entries.filter(e => e.id !== id)
-      }));
-      // API call (assuming DELETE endpoint exists, if not need to create it)
-      // await client.delete(`/journals/${id}`); 
-      // For now, since we didn't check backend for DELETE route, we'll just update local state
-      // But to be professional, we should add the route. 
-      // Let's assume we will add it or it's a "local only" delete for UI demo if backend fails.
-      // Actually, let's try to call it.
       await client.delete(`/journals/${id}`);
-    } catch (err) {
+      useToastStore.getState().success('Запись удалена');
+    } catch (err: any) {
       console.error('deleteEntry error', err);
-      // Revert on error would be good here
-      get().fetchEntries();
+      // Revert on error
+      if (entryToDelete) {
+        set(state => ({
+          entries: [...state.entries, entryToDelete].sort((a, b) => 
+            new Date(b.date).getTime() - new Date(a.date).getTime()
+          )
+        }));
+      } else {
+        get().fetchEntries();
+      }
+      const errorMsg = err?.response?.data?.error || err?.message || 'Ошибка удаления';
+      useToastStore.getState().error(`Не удалось удалить запись: ${errorMsg}`);
     }
   }
 }));

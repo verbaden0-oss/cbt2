@@ -16,9 +16,31 @@ export default function Login() {
   const [isNewUser, setIsNewUser] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    // Validation
+    if (!email || !password) {
+      setError('Заполните все поля');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError('Введите корректный email адрес');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Пароль должен быть не менее 6 символов');
+      return;
+    }
+
     setIsLoading(true);
 
     try {

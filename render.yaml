@@ -15,8 +15,11 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      # JWT_SECRET must be set manually in Render dashboard
+      # DO NOT use generateValue: true as it changes on restart and invalidates all tokens
+      # Set a strong random secret via Render dashboard: Settings > Environment
       - key: JWT_SECRET
-        generateValue: true
+        sync: false  # Requires manual setup
       - key: DATABASE_URL
         value: postgresql://neondb_owner:npg_bMVcwNd5mIW8@ep-shiny-wildflower-a1xellrj-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
       - key: CORS_ORIGIN

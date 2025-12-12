@@ -4,13 +4,18 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import BottomNav from './BottomNav';
 import FloatingActionButton from './FloatingActionButton';
+import { ToastContainer } from './ui/Toast';
+import { useToastStore } from '../store/toastStore';
 
 export default function Layout() {
     const location = useLocation();
     const isLoginPage = location.pathname === '/login';
+    const toasts = useToastStore((s) => s.toasts);
+    const removeToast = useToastStore((s) => s.removeToast);
 
     return (
         <div className="min-h-screen flex flex-col bg-background text-text-primary transition-colors duration-300">
+            <ToastContainer toasts={toasts} onClose={removeToast} />
             {/* Desktop navbar - hidden on mobile */}
             <div className="hidden md:block">
                 <Navbar />
