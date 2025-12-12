@@ -67,7 +67,7 @@ router.post('/', async (req, res) => {
     } catch (err) {
         if (client) await client.query('ROLLBACK');
         console.error(err);
-        res.status(500).json({ error: 'Server error while creating journal entry' });
+        res.status(500).json({ error: 'Server error: ' + err.message });
     } finally {
         if (client) client.release();
     }
