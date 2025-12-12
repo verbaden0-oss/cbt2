@@ -15,19 +15,32 @@ export default function Layout() {
     const removeToast = useToastStore((s) => s.removeToast);
 
     return (
-        <div className="min-h-screen flex flex-col bg-background text-text-primary transition-colors duration-300">
+        <div className="min-h-screen flex flex-col text-text-primary transition-colors duration-300">
+            {/* Animated Background */}
+            <div className="page-background">
+                <div className="orb orb-1" />
+                <div className="orb orb-2" />
+                <div className="orb orb-3" />
+            </div>
+            
+            {/* Grain texture overlay */}
+            <div className="grain-overlay" />
+
             <ToastContainer toasts={toasts} onClose={removeToast} />
+            
             {/* Desktop navbar - hidden on mobile */}
             <div className="hidden md:block">
                 <Navbar />
             </div>
 
             {/* Mobile header - simplified */}
-            <header className="md:hidden sticky top-0 z-40 px-4 py-3 glass border-b border-white/10">
+            <header className="md:hidden sticky top-0 z-40 px-4 py-3 glass border-b border-border safe-area-top">
                 <div className="flex items-center justify-between">
                     <span className="text-xl font-bold text-primary flex items-center gap-2">
-                        <Brain className="w-6 h-6" strokeWidth={2} />
-                        <span>Мой КПТ</span>
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                            <Brain className="w-5 h-5 text-white" strokeWidth={2} />
+                        </div>
+                        <span className="font-serif">Мой КПТ</span>
                     </span>
                     <MobileThemeToggle />
                 </div>
@@ -54,9 +67,14 @@ export default function Layout() {
     );
 }
 
-// Simple mobile theme toggle
+// Mobile theme toggle with smooth animation
 function MobileThemeToggle() {
-    const [isDark, setIsDark] = React.useState(false);
+    const [isDark, setIsDark] = React.useState(() => {
+        if (typeof window !== 'undefined') {
+            return document.documentElement.classList.contains('dark');
+        }
+        return false;
+    });
 
     React.useEffect(() => {
         if (isDark) {
@@ -69,14 +87,23 @@ function MobileThemeToggle() {
     return (
         <button
             onClick={() => setIsDark(!isDark)}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-xl glass border border-border hover:border-primary transition-all duration-300"
             aria-label="Переключить тему"
         >
-            {isDark ? (
-                <Sun className="w-5 h-5 text-text-primary" strokeWidth={2} />
-            ) : (
-                <Moon className="w-5 h-5 text-text-primary" strokeWidth={2} />
-            )}
+            <div className="relative w-5 h-5">
+                <Sun 
+                    className={`absolute inset-0 w-5 h-5 text-accent transition-all duration-300 ${
+                        isDark ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'
+                    }`} 
+                    strokeWidth={2} 
+                />
+                <Moon 
+                    className={`absolute inset-0 w-5 h-5 text-primary transition-all duration-300 ${
+                        isDark ? 'opacity-0 rotate-90' : 'opacity-100 rotate-0'
+                    }`} 
+                    strokeWidth={2} 
+                />
+            </div>
         </button>
     );
 }
