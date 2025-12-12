@@ -45,7 +45,7 @@ services:
         value: no-cache
     envVars:
       - key: REACT_APP_API_URL
-        value: https://cbt-backend.onrender.com
+        value: https://cbt-backend-6ewd.onrender.com
     routes:
       - type: rewrite
         source: /*

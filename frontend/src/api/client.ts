@@ -1,6 +1,15 @@
 import axios from 'axios';
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+const DEFAULT_PROD_URL = 'https://cbt-backend-6ewd.onrender.com';
+const ENV_API_URL = process.env.REACT_APP_API_URL;
+
+// Use env var if it's not the old broken one, otherwise use new default
+// Also check if we are on localhost to fallback to local backend
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+const API_BASE = (ENV_API_URL && !ENV_API_URL.includes('cbt-backend.onrender.com'))
+  ? ENV_API_URL
+  : (isLocalhost ? 'http://localhost:4000' : DEFAULT_PROD_URL);
 
 function getTokenFromStorage(): string | null {
   try {
