@@ -69,6 +69,27 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Server error while creating journal entry' });
     } finally {
         client.release();
+    });
+
+// Delete a journal entry
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    try {
+        const result = await pool.query(
+            'DELETE FROM journals WHERE id = $1 AND user_id = $2',
+            [id, userId]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Journal entry not found or user not authorized' });
+        }
+
+        res.status(204).send(); // No Content
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error while deleting journal entry' });
     }
 });
 
