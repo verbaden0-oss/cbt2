@@ -13,12 +13,30 @@ dotenv.config();
 const app = express();
 
 // CORS configuration for production
+const allowedOrigins = [
+  'https://cbt-frontend-00t1.onrender.com',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || process.env.CORS_ORIGIN === origin) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all for now, but log
+      console.log('CORS request from:', origin);
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
 app.use(express.json());
 
