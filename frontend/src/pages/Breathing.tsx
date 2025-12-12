@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Lightbulb } from 'lucide-react';
 
 type BreathingPhase = 'inhale' | 'hold' | 'exhale' | 'holdEmpty' | 'idle';
 
@@ -232,7 +233,10 @@ export default function Breathing() {
 
             {/* Tips */}
             <Card className="mt-8 bg-primary/5 border-primary/20">
-                <h3 className="font-semibold text-primary mb-2">💡 Советы</h3>
+                <h3 className="font-semibold text-primary mb-2 flex items-center gap-2">
+                    <Lightbulb className="w-5 h-5" strokeWidth={2} />
+                    Советы
+                </h3>
                 <ul className="text-sm text-text-secondary space-y-1">
                     <li>• Дышите животом, а не грудью</li>
                     <li>• Найдите удобное положение сидя или лёжа</li>

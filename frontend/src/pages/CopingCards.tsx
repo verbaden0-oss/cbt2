@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Lightbulb } from 'lucide-react';
 
 interface CopingCard {
     id: number;
@@ -265,7 +266,10 @@ export default function CopingCards() {
 
             {/* Tips */}
             <Card className="mt-8 bg-primary/5 border-primary/20">
-                <h3 className="font-semibold text-primary mb-2">💡 Как использовать</h3>
+                <h3 className="font-semibold text-primary mb-2 flex items-center gap-2">
+                    <Lightbulb className="w-5 h-5" strokeWidth={2} />
+                    Как использовать
+                </h3>
                 <ul className="text-sm text-text-secondary space-y-1">
                     <li>• Когда чувствуете негативные мысли — откройте карточки</li>
                     <li>• Найдите мысль, похожую на вашу</li>

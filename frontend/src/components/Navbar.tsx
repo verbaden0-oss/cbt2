@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { Button } from './ui/Button';
+import { Brain, Sun, Moon, Menu, X, BarChart3, Trophy } from 'lucide-react';
 
 export default function Navbar() {
     const logout = useAuthStore((s) => s.logout);
@@ -21,12 +22,12 @@ export default function Navbar() {
 
     const navLinks = [
         { path: '/', label: 'Главная' },
-        { path: '/dashboard', label: '📊 Статистика' },
+        { path: '/dashboard', label: 'Статистика', icon: BarChart3 },
         { path: '/journal', label: 'Дневник' },
         { path: '/cbt', label: 'КПТ' },
         { path: '/sobriety', label: 'Трезвость' },
         { path: '/triggers', label: 'Триггеры' },
-        { path: '/achievements', label: '🏆 Бейджи' },
+        { path: '/achievements', label: 'Бейджи', icon: Trophy },
     ];
 
     const isActive = (path: string) => location.pathname === path;
@@ -37,7 +38,7 @@ export default function Navbar() {
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
                     <Link to="/" className="text-xl font-bold text-primary flex items-center gap-2">
-                        <span className="text-2xl">🧠</span>
+                        <Brain className="w-6 h-6" strokeWidth={2} />
                         <span>Мой КПТ</span>
                     </Link>
 
@@ -47,9 +48,10 @@ export default function Navbar() {
                             <Link
                                 key={link.path}
                                 to={link.path}
-                                className={`text-sm font-medium transition-colors hover:text-primary ${isActive(link.path) ? 'text-primary font-bold' : 'text-text-secondary'
+                                className={`text-sm font-medium transition-colors hover:text-primary flex items-center gap-1.5 ${isActive(link.path) ? 'text-primary font-bold' : 'text-text-secondary'
                                     }`}
                             >
+                                {link.icon && React.createElement(link.icon, { className: 'w-4 h-4', strokeWidth: 2 })}
                                 {link.label}
                             </Link>
                         ))}
@@ -62,7 +64,11 @@ export default function Navbar() {
                             className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                             aria-label="Переключить тему"
                         >
-                            {isDark ? '🌞' : '🌙'}
+                            {isDark ? (
+                                <Sun className="w-5 h-5 text-text-primary" strokeWidth={2} />
+                            ) : (
+                                <Moon className="w-5 h-5 text-text-primary" strokeWidth={2} />
+                            )}
                         </button>
 
                         {!isAuthenticated ? (
@@ -82,13 +88,21 @@ export default function Navbar() {
                             onClick={() => setIsDark(!isDark)}
                             className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                         >
-                            {isDark ? '🌞' : '🌙'}
+                            {isDark ? (
+                                <Sun className="w-5 h-5 text-text-primary" strokeWidth={2} />
+                            ) : (
+                                <Moon className="w-5 h-5 text-text-primary" strokeWidth={2} />
+                            )}
                         </button>
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             className="p-2 text-text-primary focus:outline-none"
                         >
-                            <span className="text-2xl">{isMenuOpen ? '✕' : '☰'}</span>
+                            {isMenuOpen ? (
+                                <X className="w-6 h-6" strokeWidth={2} />
+                            ) : (
+                                <Menu className="w-6 h-6" strokeWidth={2} />
+                            )}
                         </button>
                     </div>
                 </div>

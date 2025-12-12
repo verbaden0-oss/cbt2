@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     BookOpen, Brain, Wind, Zap, Shield, AlertCircle,
-    TrendingUp, Clock, Target
+    TrendingUp, Clock, Target, Flame, ArrowRight
 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -43,7 +43,9 @@ export default function Home() {
                     <p className="text-text-secondary">без игры</p>
 
                     {daysClean >= 7 && (
-                        <div className="mt-4 text-2xl animate-bounce-slow">🔥</div>
+                        <div className="mt-4 flex justify-center animate-bounce-slow">
+                            <Flame className="w-8 h-8 text-orange-500 fill-orange-500" />
+                        </div>
                     )}
                 </Card>
 
@@ -58,7 +60,7 @@ export default function Home() {
                                 <h3 className="font-bold text-lg">Хочется играть?</h3>
                                 <p className="text-white/80 text-sm">Нажми для быстрой помощи</p>
                             </div>
-                            <span className="text-2xl">→</span>
+                            <ArrowRight className="w-6 h-6" />
                         </div>
                     </Card>
                 </Link>

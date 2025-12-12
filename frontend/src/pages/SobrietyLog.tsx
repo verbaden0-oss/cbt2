@@ -4,6 +4,7 @@ import { useSobrietyStore } from '../store/sobrietyStore';
 import { useTriggersStore } from '../store/triggersStore';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { PartyPopper, Star, Trophy, Gem, Crown, Dumbbell } from 'lucide-react';
 
 export default function SobrietyLog() {
     const navigate = useNavigate();
@@ -118,19 +119,34 @@ export default function SobrietyLog() {
                 {log && log.current_streak >= 1 && (
                     <div className="border-t border-white/10 pt-6 text-center">
                         {log.current_streak === 1 && (
-                            <p className="text-success font-semibold animate-fade-in">🎉 Отличное начало! Первый день — самый важный!</p>
+                            <p className="text-success font-semibold animate-fade-in flex items-center gap-2">
+                                <PartyPopper className="w-5 h-5" strokeWidth={2} />
+                                <span>Отличное начало! Первый день — самый важный!</span>
+                            </p>
                         )}
                         {log.current_streak === 7 && (
-                            <p className="text-success font-semibold animate-fade-in">🌟 Неделя трезвости! Ты молодец!</p>
+                            <p className="text-success font-semibold animate-fade-in flex items-center gap-2">
+                                <Star className="w-5 h-5" strokeWidth={2} />
+                                <span>Неделя трезвости! Ты молодец!</span>
+                            </p>
                         )}
                         {log.current_streak === 30 && (
-                            <p className="text-success font-semibold animate-fade-in">🏆 Месяц! Это серьезное достижение!</p>
+                            <p className="text-success font-semibold animate-fade-in flex items-center gap-2">
+                                <Trophy className="w-5 h-5" strokeWidth={2} />
+                                <span>Месяц! Это серьезное достижение!</span>
+                            </p>
                         )}
                         {log.current_streak === 90 && (
-                            <p className="text-success font-semibold animate-fade-in">💎 90 дней — ты невероятен!</p>
+                            <p className="text-success font-semibold animate-fade-in flex items-center gap-2">
+                                <Gem className="w-5 h-5" strokeWidth={2} />
+                                <span>90 дней — ты невероятен!</span>
+                            </p>
                         )}
                         {log.current_streak >= 365 && (
-                            <p className="text-success font-semibold animate-fade-in">👑 ГОД ТРЕЗВОСТИ! Ты легенда!</p>
+                            <p className="text-success font-semibold animate-fade-in flex items-center gap-2">
+                                <Crown className="w-5 h-5" strokeWidth={2} />
+                                <span>ГОД ТРЕЗВОСТИ! Ты легенда!</span>
+                            </p>
                         )}
                     </div>
                 )}
@@ -245,7 +261,9 @@ export default function SobrietyLog() {
             {showSuccessModal && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
                     <Card className="max-w-md w-full text-center">
-                        <div className="text-4xl mb-4">💪</div>
+                        <div className="mb-4 flex justify-center">
+                            <Dumbbell className="w-12 h-12 text-primary" strokeWidth={2} />
+                        </div>
                         <h3 className="text-xl font-bold mb-2">Счётчик сброшен</h3>
                         <p className="text-text-secondary mb-6">
                             Срыв записан. Самое важное сейчас — не сдаваться. Хотите сделать КПТ упражнение, чтобы проработать негативные мысли?

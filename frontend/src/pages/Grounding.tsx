@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Eye, Ear, Hand, Nose, Tongue, Star, Lightbulb } from 'lucide-react';
 
 const steps = [
-    { count: 5, sense: 'видите', emoji: '👁️', placeholder: 'Стол, окно, дерево, книга, чашка' },
-    { count: 4, sense: 'слышите', emoji: '👂', placeholder: 'Шум улицы, тиканье часов, дыхание, музыка' },
-    { count: 3, sense: 'ощущаете', emoji: '✋', placeholder: 'Стул подо мной, ноги на полу, одежда на коже' },
-    { count: 2, sense: 'чувствуете запах', emoji: '👃', placeholder: 'Кофе, свежий воздух' },
-    { count: 1, sense: 'ощущаете на вкус', emoji: '👅', placeholder: 'Вкус во рту, вода' },
+    { count: 5, sense: 'видите', icon: Eye, placeholder: 'Стол, окно, дерево, книга, чашка' },
+    { count: 4, sense: 'слышите', icon: Ear, placeholder: 'Шум улицы, тиканье часов, дыхание, музыка' },
+    { count: 3, sense: 'ощущаете', icon: Hand, placeholder: 'Стул подо мной, ноги на полу, одежда на коже' },
+    { count: 2, sense: 'чувствуете запах', icon: Nose, placeholder: 'Кофе, свежий воздух' },
+    { count: 1, sense: 'ощущаете на вкус', icon: Tongue, placeholder: 'Вкус во рту, вода' },
 ];
 
 export default function Grounding() {
@@ -73,7 +74,9 @@ export default function Grounding() {
 
                     {/* Current Step */}
                     <Card className="text-center py-8 mb-6">
-                        <div className="text-6xl mb-4">{step.emoji}</div>
+                        <div className="flex justify-center mb-4">
+                            {React.createElement(step.icon, { className: "w-16 h-16 text-primary" })}
+                        </div>
                         <div className="text-5xl font-bold text-primary mb-4">{step.count}</div>
                         <p className="text-xl mb-6">
                             Назовите <strong>{step.count}</strong> вещ{step.count === 1 ? 'ь' : step.count <= 4 ? 'и' : 'ей'}, которые вы <strong>{step.sense}</strong>
@@ -120,7 +123,9 @@ export default function Grounding() {
                 </>
             ) : (
                 <Card className="text-center py-12">
-                    <div className="text-6xl mb-4">🌟</div>
+                    <div className="flex justify-center mb-4">
+                        <Star className="w-16 h-16 text-yellow-500 fill-yellow-500" />
+                    </div>
                     <h2 className="text-2xl font-bold mb-2">Упражнение завершено!</h2>
                     <p className="text-text-secondary mb-6">
                         Вы вернулись в настоящий момент. Дышите глубоко и спокойно.
@@ -128,15 +133,18 @@ export default function Grounding() {
 
                     {/* Summary */}
                     <div className="text-left space-y-4 mb-8 max-w-md mx-auto">
-                        {steps.map((s, i) => (
-                            <div key={i} className="flex gap-3">
-                                <span className="text-2xl">{s.emoji}</span>
-                                <div>
-                                    <div className="text-xs text-text-secondary">{s.count} — {s.sense}</div>
-                                    <div className="text-sm">{answers[i] || <span className="text-text-secondary italic">Не заполнено</span>}</div>
+                        {steps.map((s, i) => {
+                            const IconComponent = s.icon;
+                            return (
+                                <div key={i} className="flex gap-3">
+                                    <IconComponent className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+                                    <div>
+                                        <div className="text-xs text-text-secondary">{s.count} — {s.sense}</div>
+                                        <div className="text-sm">{answers[i] || <span className="text-text-secondary italic">Не заполнено</span>}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     <Button onClick={handleReset}>
@@ -147,7 +155,10 @@ export default function Grounding() {
 
             {/* Tips */}
             <Card className="mt-8 bg-primary/5 border-primary/20">
-                <h3 className="font-semibold text-primary mb-2">💡 Когда использовать</h3>
+                <h3 className="font-semibold text-primary mb-2 flex items-center gap-2">
+                    <Lightbulb className="w-5 h-5" />
+                    Когда использовать
+                </h3>
                 <ul className="text-sm text-text-secondary space-y-1">
                     <li>• При панических атаках</li>
                     <li>• Когда чувствуете диссоциацию</li>

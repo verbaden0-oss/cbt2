@@ -1,4 +1,5 @@
 import React from 'react';
+import { AlertTriangle, Phone } from 'lucide-react';
 
 export default function Footer() {
     return (
@@ -7,7 +8,10 @@ export default function Footer() {
                 <div className="grid md:grid-cols-2 gap-8 mb-6">
                     {/* Disclaimer */}
                     <div>
-                        <h3 className="text-sm font-bold text-primary mb-2">⚠️ Важная информация</h3>
+                        <h3 className="text-sm font-bold text-primary mb-2 flex items-center gap-2">
+                            <AlertTriangle className="w-4 h-4" strokeWidth={2} />
+                            Важная информация
+                        </h3>
                         <p className="text-xs text-text-secondary leading-relaxed">
                             Это приложение создано для личного использования и самопомощи.
                             Оно <strong>НЕ</strong> является заменой профессиональной медицинской или психологической помощи.
@@ -17,7 +21,10 @@ export default function Footer() {
 
                     {/* Crisis Resources */}
                     <div>
-                        <h3 className="text-sm font-bold text-error mb-2">🆘 Нужна помощь сейчас?</h3>
+                        <h3 className="text-sm font-bold text-error mb-2 flex items-center gap-2">
+                            <Phone className="w-4 h-4" strokeWidth={2} />
+                            Нужна помощь сейчас?
+                        </h3>
                         <div className="text-xs text-text-secondary space-y-1">
                             <p><strong>Телефон доверия (РФ):</strong> 8-800-2000-122 (бесплатно, круглосуточно)</p>
                             <p><strong>Скорая помощь:</strong> 103 или 112</p>

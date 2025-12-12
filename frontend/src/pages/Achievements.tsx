@@ -4,12 +4,17 @@ import { useSobrietyStore } from '../store/sobrietyStore';
 import { useCBTStore } from '../store/cbtStore';
 import { useTriggersStore } from '../store/triggersStore';
 import { Card } from '../components/ui/Card';
+import { 
+    Sprout, Star, Trophy, Gem, Crown, 
+    PenTool, BookOpen, Flame, Zap, Brain, 
+    Target, Medal, Search, Rocket, Dumbbell 
+} from 'lucide-react';
 
 interface Badge {
     id: string;
     name: string;
     description: string;
-    emoji: string;
+    icon: React.ComponentType<{ className?: string }>;
     unlocked: boolean;
     progress?: number;
     maxProgress?: number;
@@ -72,7 +77,7 @@ export default function Achievements() {
                 id: 'sober_1',
                 name: 'Первый день',
                 description: '1 день трезвости',
-                emoji: '🌱',
+                icon: Sprout,
                 unlocked: sobrietyDays >= 1,
                 progress: Math.min(sobrietyDays, 1),
                 maxProgress: 1
@@ -81,7 +86,7 @@ export default function Achievements() {
                 id: 'sober_7',
                 name: 'Неделя силы',
                 description: '7 дней трезвости',
-                emoji: '🌟',
+                icon: Star,
                 unlocked: sobrietyDays >= 7,
                 progress: Math.min(sobrietyDays, 7),
                 maxProgress: 7
@@ -90,7 +95,7 @@ export default function Achievements() {
                 id: 'sober_30',
                 name: 'Месяц свободы',
                 description: '30 дней трезвости',
-                emoji: '🏆',
+                icon: Trophy,
                 unlocked: sobrietyDays >= 30,
                 progress: Math.min(sobrietyDays, 30),
                 maxProgress: 30
@@ -99,7 +104,7 @@ export default function Achievements() {
                 id: 'sober_90',
                 name: 'Квартал победы',
                 description: '90 дней трезвости',
-                emoji: '💎',
+                icon: Gem,
                 unlocked: sobrietyDays >= 90,
                 progress: Math.min(sobrietyDays, 90),
                 maxProgress: 90
@@ -108,7 +113,7 @@ export default function Achievements() {
                 id: 'sober_365',
                 name: 'Год легенды',
                 description: '365 дней трезвости',
-                emoji: '👑',
+                icon: Crown,
                 unlocked: sobrietyDays >= 365,
                 progress: Math.min(sobrietyDays, 365),
                 maxProgress: 365
@@ -119,7 +124,7 @@ export default function Achievements() {
                 id: 'journal_1',
                 name: 'Первые мысли',
                 description: 'Первая запись в дневнике',
-                emoji: '📝',
+                icon: PenTool,
                 unlocked: journalCount >= 1,
                 progress: Math.min(journalCount, 1),
                 maxProgress: 1
@@ -128,7 +133,7 @@ export default function Achievements() {
                 id: 'journal_10',
                 name: 'Рефлексия',
                 description: '10 записей в дневнике',
-                emoji: '📓',
+                icon: BookOpen,
                 unlocked: journalCount >= 10,
                 progress: Math.min(journalCount, 10),
                 maxProgress: 10
@@ -137,7 +142,7 @@ export default function Achievements() {
                 id: 'journal_streak_3',
                 name: 'Привычка',
                 description: '3 дня подряд ведения дневника',
-                emoji: '🔥',
+                icon: Flame,
                 unlocked: journalStreak >= 3,
                 progress: Math.min(journalStreak, 3),
                 maxProgress: 3
@@ -146,7 +151,7 @@ export default function Achievements() {
                 id: 'journal_streak_7',
                 name: 'Неделя осознанности',
                 description: '7 дней подряд ведения дневника',
-                emoji: '⚡',
+                icon: Zap,
                 unlocked: journalStreak >= 7,
                 progress: Math.min(journalStreak, 7),
                 maxProgress: 7
@@ -157,7 +162,7 @@ export default function Achievements() {
                 id: 'cbt_1',
                 name: 'Первое упражнение',
                 description: 'Первое КПТ упражнение',
-                emoji: '🧠',
+                icon: Brain,
                 unlocked: cbtCount >= 1,
                 progress: Math.min(cbtCount, 1),
                 maxProgress: 1
@@ -166,7 +171,7 @@ export default function Achievements() {
                 id: 'cbt_5',
                 name: 'Практик',
                 description: '5 КПТ упражнений',
-                emoji: '🎯',
+                icon: Target,
                 unlocked: cbtCount >= 5,
                 progress: Math.min(cbtCount, 5),
                 maxProgress: 5
@@ -175,7 +180,7 @@ export default function Achievements() {
                 id: 'cbt_20',
                 name: 'Мастер мыслей',
                 description: '20 КПТ упражнений',
-                emoji: '🏅',
+                icon: Medal,
                 unlocked: cbtCount >= 20,
                 progress: Math.min(cbtCount, 20),
                 maxProgress: 20
@@ -186,7 +191,7 @@ export default function Achievements() {
                 id: 'triggers_3',
                 name: 'Самопознание',
                 description: 'Определить 3 триггера',
-                emoji: '🔍',
+                icon: Search,
                 unlocked: triggerCount >= 3,
                 progress: Math.min(triggerCount, 3),
                 maxProgress: 3
@@ -232,8 +237,11 @@ export default function Achievements() {
                                 : 'opacity-50 grayscale'
                             }`}
                     >
-                        <div className={`text-5xl mb-3 ${badge.unlocked ? 'animate-bounce-slow' : ''}`}>
-                            {badge.emoji}
+                        <div className={`mb-3 flex justify-center ${badge.unlocked ? 'animate-bounce-slow' : ''}`}>
+                            {React.createElement(badge.icon, {
+                                className: `w-12 h-12 ${badge.unlocked ? 'text-primary' : 'text-text-secondary'}`,
+                                strokeWidth: 1.5
+                            })}
                         </div>
                         <h3 className="font-bold text-sm">{badge.name}</h3>
                         <p className="text-xs text-text-secondary mt-1">{badge.description}</p>
@@ -263,11 +271,31 @@ export default function Achievements() {
 
             {/* Motivation */}
             <Card className="mt-8 bg-primary/5 border-primary/20 text-center">
-                <p className="text-lg font-medium mb-2">
-                    {unlockedCount === 0 && "Начните своё путешествие! 🚀"}
-                    {unlockedCount > 0 && unlockedCount < 5 && "Отличное начало! Продолжайте! 💪"}
-                    {unlockedCount >= 5 && unlockedCount < 10 && "Вы делаете прогресс! 🌟"}
-                    {unlockedCount >= 10 && "Вы настоящий чемпион! 🏆"}
+                <p className="text-lg font-medium mb-2 flex items-center justify-center gap-2">
+                    {unlockedCount === 0 && (
+                        <>
+                            <Rocket className="w-5 h-5 text-primary" />
+                            <span>Начните своё путешествие!</span>
+                        </>
+                    )}
+                    {unlockedCount > 0 && unlockedCount < 5 && (
+                        <>
+                            <Dumbbell className="w-5 h-5 text-primary" />
+                            <span>Отличное начало! Продолжайте!</span>
+                        </>
+                    )}
+                    {unlockedCount >= 5 && unlockedCount < 10 && (
+                        <>
+                            <Star className="w-5 h-5 text-primary" />
+                            <span>Вы делаете прогресс!</span>
+                        </>
+                    )}
+                    {unlockedCount >= 10 && (
+                        <>
+                            <Trophy className="w-5 h-5 text-primary" />
+                            <span>Вы настоящий чемпион!</span>
+                        </>
+                    )}
                 </p>
             </Card>
         </div>

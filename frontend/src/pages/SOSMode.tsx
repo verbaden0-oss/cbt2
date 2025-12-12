@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Wind, Heart, Clock, ArrowLeft,
-    AlertTriangle, Lightbulb, Shield
+    AlertTriangle, Lightbulb, Shield,
+    Sparkles, CheckCircle, Circle,
+    Footprints, Phone, Music, Shower,
+    Dumbbell, Book, Coffee, PenTool
 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -75,14 +78,14 @@ export default function SOSMode() {
     ];
 
     const distractions = [
-        '🚶 Прогулка на свежем воздухе',
-        '📞 Позвонить другу/близкому',
-        '🎵 Включить музыку',
-        '🚿 Холодный душ',
-        '💪 10 отжиманий',
-        '📖 Почитать что-нибудь',
-        '🍵 Заварить чай',
-        '✍️ Записать мысли в дневник',
+        { icon: Footprints, text: 'Прогулка на свежем воздухе' },
+        { icon: Phone, text: 'Позвонить другу/близкому' },
+        { icon: Music, text: 'Включить музыку' },
+        { icon: Shower, text: 'Холодный душ' },
+        { icon: Dumbbell, text: '10 отжиманий' },
+        { icon: Book, text: 'Почитать что-нибудь' },
+        { icon: Coffee, text: 'Заварить чай' },
+        { icon: PenTool, text: 'Записать мысли в дневник' },
     ];
 
     return (
@@ -114,10 +117,25 @@ export default function SOSMode() {
                         </button>
                     ))}
                 </div>
-                <p className="text-xs text-text-secondary">
-                    {urgeIntensity <= 3 && '✨ Отлично! Желание слабое.'}
-                    {urgeIntensity > 3 && urgeIntensity <= 6 && '⚠️ Среднее желание. Используй техники.'}
-                    {urgeIntensity > 6 && '🔴 Сильное желание. Действуй сейчас!'}
+                <p className="text-xs text-text-secondary flex items-center justify-center gap-2">
+                    {urgeIntensity <= 3 && (
+                        <>
+                            <Sparkles className="w-4 h-4 text-green-500" />
+                            <span>Отлично! Желание слабое.</span>
+                        </>
+                    )}
+                    {urgeIntensity > 3 && urgeIntensity <= 6 && (
+                        <>
+                            <AlertTriangle className="w-4 h-4 text-yellow-500" />
+                            <span>Среднее желание. Используй техники.</span>
+                        </>
+                    )}
+                    {urgeIntensity > 6 && (
+                        <>
+                            <Circle className="w-4 h-4 text-red-500 fill-red-500" />
+                            <span>Сильное желание. Действуй сейчас!</span>
+                        </>
+                    )}
                 </p>
             </Card>
 
@@ -127,8 +145,15 @@ export default function SOSMode() {
                     <div className="text-4xl font-mono font-bold text-primary mb-2">
                         {formatTime(timer)}
                     </div>
-                    <p className="text-text-secondary text-sm mb-3">
-                        {timer > 0 ? 'Подожди. Желание пройдёт.' : '✅ 10 минут прошло!'}
+                    <p className="text-text-secondary text-sm mb-3 flex items-center justify-center gap-2">
+                        {timer > 0 ? (
+                            <span>Подожди. Желание пройдёт.</span>
+                        ) : (
+                            <>
+                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                <span>10 минут прошло!</span>
+                            </>
+                        )}
                     </p>
                     {timer > 0 && (
                         <Button variant="ghost" size="sm" onClick={() => setIsTimerActive(false)}>
@@ -205,11 +230,15 @@ export default function SOSMode() {
                         </Button>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                        {distractions.map((item, i) => (
-                            <div key={i} className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-sm">
-                                {item}
-                            </div>
-                        ))}
+                        {distractions.map((item, i) => {
+                            const IconComponent = item.icon;
+                            return (
+                                <div key={i} className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-sm flex items-center gap-2">
+                                    <IconComponent className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+                                    <span>{item.text}</span>
+                                </div>
+                            );
+                        })}
                     </div>
                 </Card>
             )}

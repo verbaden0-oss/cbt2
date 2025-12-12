@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useCBTStore } from '../store/cbtStore';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Zap, Waves, Brain, Wind, Globe, Cards, Sparkles } from 'lucide-react';
 
 export default function CBTExercises() {
     const exercises = useCBTStore((s) => s.exercises);
@@ -51,42 +52,54 @@ export default function CBTExercises() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 <a href="/abc" className="block">
                     <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
-                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">⚡</div>
+                        <div className="mb-2 group-hover:scale-110 transition-transform">
+                            <Zap className="w-8 h-8 text-primary mx-auto" strokeWidth={2} />
+                        </div>
                         <h3 className="font-bold text-sm">ABC Анализ</h3>
                         <p className="text-xs text-text-secondary">Разбор ситуаций</p>
                     </Card>
                 </a>
                 <a href="/urge-surfing" className="block">
                     <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
-                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🌊</div>
+                        <div className="mb-2 group-hover:scale-110 transition-transform">
+                            <Waves className="w-8 h-8 text-primary mx-auto" strokeWidth={2} />
+                        </div>
                         <h3 className="font-bold text-sm">Сёрфинг тяги</h3>
                         <p className="text-xs text-text-secondary">Переждать волну</p>
                     </Card>
                 </a>
                 <a href="/distortions" className="block">
                     <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
-                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🧠</div>
+                        <div className="mb-2 group-hover:scale-110 transition-transform">
+                            <Brain className="w-8 h-8 text-primary mx-auto" strokeWidth={2} />
+                        </div>
                         <h3 className="font-bold text-sm">Ловушки мышления</h3>
                         <p className="text-xs text-text-secondary">Ошибки игрока</p>
                     </Card>
                 </a>
                 <a href="/breathing" className="block">
                     <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
-                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🌬️</div>
+                        <div className="mb-2 group-hover:scale-110 transition-transform">
+                            <Wind className="w-8 h-8 text-primary mx-auto" strokeWidth={2} />
+                        </div>
                         <h3 className="font-bold text-sm">Дыхание</h3>
                         <p className="text-xs text-text-secondary">4-7-8, Коробочное</p>
                     </Card>
                 </a>
                 <a href="/grounding" className="block">
                     <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
-                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🌍</div>
+                        <div className="mb-2 group-hover:scale-110 transition-transform">
+                            <Globe className="w-8 h-8 text-primary mx-auto" strokeWidth={2} />
+                        </div>
                         <h3 className="font-bold text-sm">Заземление</h3>
                         <p className="text-xs text-text-secondary">Техника 5-4-3-2-1</p>
                     </Card>
                 </a>
                 <a href="/coping-cards" className="block">
                     <Card className="text-center hover:border-primary/50 transition-all group h-full flex flex-col justify-center items-center">
-                        <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">🃏</div>
+                        <div className="mb-2 group-hover:scale-110 transition-transform">
+                            <Cards className="w-8 h-8 text-primary mx-auto" strokeWidth={2} />
+                        </div>
                         <h3 className="font-bold text-sm">Копинг-карточки</h3>
                         <p className="text-xs text-text-secondary">Быстрые ответы</p>
                     </Card>
@@ -120,8 +133,8 @@ export default function CBTExercises() {
 
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-text-secondary mb-2">
-                                    1️⃣ Ситуация
+                                <label className="block text-sm font-medium text-text-secondary mb-2 flex items-center gap-2">
+                                    <span className="text-primary font-bold">1.</span> Ситуация
                                 </label>
                                 <p className="text-xs text-text-secondary mb-2">
                                     Что произошло? Где вы были? Кто был рядом?
@@ -136,8 +149,8 @@ export default function CBTExercises() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-text-secondary mb-2">
-                                    2️⃣ Автоматическая Мысль
+                                <label className="block text-sm font-medium text-text-secondary mb-2 flex items-center gap-2">
+                                    <span className="text-primary font-bold">2.</span> Автоматическая Мысль
                                 </label>
                                 <p className="text-xs text-text-secondary mb-2">
                                     Какая мысль пришла вам в голову? Что вы сказали себе?
@@ -152,8 +165,8 @@ export default function CBTExercises() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-text-secondary mb-2">
-                                    3️⃣ Оспаривание
+                                <label className="block text-sm font-medium text-text-secondary mb-2 flex items-center gap-2">
+                                    <span className="text-primary font-bold">3.</span> Оспаривание
                                 </label>
                                 <p className="text-xs text-text-secondary mb-2">
                                     Какие есть доказательства ЗА и ПРОТИВ этой мысли? Что бы вы сказали другу в такой ситуации?
@@ -168,8 +181,8 @@ export default function CBTExercises() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-text-secondary mb-2">
-                                    4️⃣ Рациональный Ответ
+                                <label className="block text-sm font-medium text-text-secondary mb-2 flex items-center gap-2">
+                                    <span className="text-primary font-bold">4.</span> Рациональный Ответ
                                 </label>
                                 <p className="text-xs text-text-secondary mb-2">
                                     Как можно взглянуть на ситуацию более сбалансированно? Какая альтернативная мысль?
@@ -233,7 +246,10 @@ export default function CBTExercises() {
                                         </div>
 
                                         <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-                                            <div className="text-sm font-semibold text-success mb-1">✨ Рациональный ответ:</div>
+                                            <div className="text-sm font-semibold text-success mb-1 flex items-center gap-1">
+                                                <Sparkles className="w-4 h-4" strokeWidth={2} />
+                                                Рациональный ответ:
+                                            </div>
                                             <div className="text-text-primary">{content.rationalThought}</div>
                                         </div>
                                     </div>

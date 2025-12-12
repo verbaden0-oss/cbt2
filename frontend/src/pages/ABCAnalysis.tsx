@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { ArrowRight, Save, RotateCcw } from 'lucide-react';
+import { ArrowRight, Save, RotateCcw, Zap, MessageSquare, Waves, Shield, Sparkles } from 'lucide-react';
 
 export default function ABCAnalysis() {
     const [step, setStep] = useState(1);
@@ -64,7 +64,7 @@ export default function ABCAnalysis() {
                     {step === 1 && (
                         <div className="animate-fade-in space-y-4">
                             <div className="flex items-center gap-3 mb-4">
-                                <span className="text-4xl">⚡</span>
+                                <Zap className="w-10 h-10 text-primary" strokeWidth={2} />
                                 <div>
                                     <h2 className="text-xl font-bold">A - Activating Event</h2>
                                     <p className="text-text-secondary">Активирующее событие</p>
@@ -88,7 +88,7 @@ export default function ABCAnalysis() {
                     {step === 2 && (
                         <div className="animate-fade-in space-y-4">
                             <div className="flex items-center gap-3 mb-4">
-                                <span className="text-4xl">💭</span>
+                                <MessageSquare className="w-10 h-10 text-primary" strokeWidth={2} />
                                 <div>
                                     <h2 className="text-xl font-bold">B - Beliefs</h2>
                                     <p className="text-text-secondary">Убеждения и мысли</p>
@@ -112,7 +112,7 @@ export default function ABCAnalysis() {
                     {step === 3 && (
                         <div className="animate-fade-in space-y-4">
                             <div className="flex items-center gap-3 mb-4">
-                                <span className="text-4xl">🌊</span>
+                                <Waves className="w-10 h-10 text-primary" strokeWidth={2} />
                                 <div>
                                     <h2 className="text-xl font-bold">C - Consequences</h2>
                                     <p className="text-text-secondary">Последствия</p>
@@ -136,7 +136,7 @@ export default function ABCAnalysis() {
                     {step === 4 && (
                         <div className="animate-fade-in space-y-4">
                             <div className="flex items-center gap-3 mb-4">
-                                <span className="text-4xl">🛡️</span>
+                                <Shield className="w-10 h-10 text-primary" strokeWidth={2} />
                                 <div>
                                     <h2 className="text-xl font-bold">D - Disputation</h2>
                                     <p className="text-text-secondary">Оспаривание</p>
@@ -160,7 +160,7 @@ export default function ABCAnalysis() {
                     {step === 5 && (
                         <div className="animate-fade-in space-y-4">
                             <div className="flex items-center gap-3 mb-4">
-                                <span className="text-4xl">✨</span>
+                                <Sparkles className="w-10 h-10 text-primary" strokeWidth={2} />
                                 <div>
                                     <h2 className="text-xl font-bold">E - Effective New Belief</h2>
                                     <p className="text-text-secondary">Новое убеждение</p>

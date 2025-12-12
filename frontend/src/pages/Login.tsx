@@ -4,6 +4,7 @@ import client from '../api/client';
 import { useAuthStore } from '../store/authStore';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Brain, Mail, Lock, Eye, EyeOff, AlertTriangle, Lightbulb, ShieldCheck, PartyPopper, Hand } from 'lucide-react';
 
 export default function Login() {
   const login = useAuthStore((s) => s.login);
@@ -75,8 +76,12 @@ export default function Login() {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
         <div className="text-center animate-success">
-          <div className="text-7xl mb-6">
-            {isNewUser ? '🎉' : '👋'}
+          <div className="mb-6 flex justify-center">
+            {isNewUser ? (
+              <PartyPopper className="w-16 h-16 text-primary" strokeWidth={1.5} />
+            ) : (
+              <Hand className="w-16 h-16 text-primary" strokeWidth={1.5} />
+            )}
           </div>
           <h2 className="text-3xl font-bold text-text-primary mb-2">
             {isNewUser ? 'Добро пожаловать!' : 'С возвращением!'}
@@ -103,8 +108,8 @@ export default function Login() {
       <Card className="w-full max-w-md space-y-6 relative z-10 glass-card-premium">
         {/* Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary text-white text-3xl shadow-lg animate-float">
-            🧠
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary text-white shadow-lg animate-float">
+            <Brain className="w-8 h-8" strokeWidth={2} />
           </div>
           <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
             Мой КПТ
@@ -121,9 +126,7 @@ export default function Login() {
               Email
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">
-                📧
-              </span>
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary" strokeWidth={2} />
               <input
                 type="email"
                 value={email}
@@ -141,9 +144,7 @@ export default function Login() {
               Пароль
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">
-                🔒
-              </span>
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary" strokeWidth={2} />
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
@@ -158,7 +159,11 @@ export default function Login() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary transition-colors"
               >
-                {showPassword ? '👁️' : '👁️‍🗨️'}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" strokeWidth={2} />
+                ) : (
+                  <Eye className="w-5 h-5" strokeWidth={2} />
+                )}
               </button>
             </div>
           </div>
@@ -166,7 +171,7 @@ export default function Login() {
           {/* Error Message */}
           {error && (
             <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm flex items-start gap-3 animate-shake">
-              <span className="text-lg">⚠️</span>
+              <AlertTriangle className="w-5 h-5 mt-0.5 flex-shrink-0" strokeWidth={2} />
               <div>
                 <p className="font-medium">Ошибка</p>
                 <p className="text-red-500 dark:text-red-300">{error}</p>
@@ -175,8 +180,9 @@ export default function Login() {
           )}
 
           {/* Info Box */}
-          <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl text-blue-600 dark:text-blue-400 text-xs">
-            <p>💡 Если аккаунт с этим email не существует, он будет создан автоматически.</p>
+          <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl text-blue-600 dark:text-blue-400 text-xs flex items-start gap-2">
+            <Lightbulb className="w-4 h-4 mt-0.5 flex-shrink-0" strokeWidth={2} />
+            <p>Если аккаунт с этим email не существует, он будет создан автоматически.</p>
           </div>
 
           {/* Submit Button */}
@@ -191,8 +197,9 @@ export default function Login() {
         </form>
 
         {/* Footer */}
-        <div className="text-center text-xs text-text-secondary pt-4 border-t border-gray-200 dark:border-gray-700">
-          <p>Защищённое соединение 🔐</p>
+        <div className="text-center text-xs text-text-secondary pt-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-center gap-1">
+          <ShieldCheck className="w-4 h-4" strokeWidth={2} />
+          <p>Защищённое соединение</p>
         </div>
       </Card>
     </div>

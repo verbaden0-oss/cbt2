@@ -6,6 +6,7 @@ import BottomNav from './BottomNav';
 import FloatingActionButton from './FloatingActionButton';
 import { ToastContainer } from './ui/Toast';
 import { useToastStore } from '../store/toastStore';
+import { Brain, Sun, Moon } from 'lucide-react';
 
 export default function Layout() {
     const location = useLocation();
@@ -25,7 +26,7 @@ export default function Layout() {
             <header className="md:hidden sticky top-0 z-40 px-4 py-3 glass border-b border-white/10">
                 <div className="flex items-center justify-between">
                     <span className="text-xl font-bold text-primary flex items-center gap-2">
-                        <span className="text-2xl">🧠</span>
+                        <Brain className="w-6 h-6" strokeWidth={2} />
                         <span>Мой КПТ</span>
                     </span>
                     <MobileThemeToggle />
@@ -71,7 +72,11 @@ function MobileThemeToggle() {
             className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 transition-colors"
             aria-label="Переключить тему"
         >
-            {isDark ? '🌞' : '🌙'}
+            {isDark ? (
+                <Sun className="w-5 h-5 text-text-primary" strokeWidth={2} />
+            ) : (
+                <Moon className="w-5 h-5 text-text-primary" strokeWidth={2} />
+            )}
         </button>
     );
 }

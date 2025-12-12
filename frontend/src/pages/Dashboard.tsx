@@ -6,6 +6,17 @@ import { useSobrietyStore } from '../store/sobrietyStore';
 import { useCBTStore } from '../store/cbtStore';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { 
+  Smile, 
+  Meh, 
+  Frown, 
+  Sad,
+  BookOpen,
+  Brain,
+  Shield,
+  Zap,
+  Lightbulb
+} from 'lucide-react';
 
 export default function Dashboard() {
     const entries = useJournalStore((s) => s.entries);
@@ -85,12 +96,12 @@ export default function Dashboard() {
         return Object.values(triggerCounts).sort((a, b) => b.count - a.count).slice(0, 5);
     }, [entries, triggers]);
 
-    const getMoodEmoji = (mood: number) => {
-        if (mood >= 8) return '😊';
-        if (mood >= 6) return '🙂';
-        if (mood >= 4) return '😐';
-        if (mood >= 2) return '😔';
-        return '😢';
+    const getMoodIcon = (mood: number) => {
+        if (mood >= 8) return <Smile className="w-4 h-4 inline" />;
+        if (mood >= 6) return <Meh className="w-4 h-4 inline" />;
+        if (mood >= 4) return <Frown className="w-4 h-4 inline" />;
+        if (mood >= 2) return <Sad className="w-4 h-4 inline" />;
+        return <Sad className="w-4 h-4 inline" />;
     };
 
     const getMoodColor = (mood: number) => {
@@ -163,7 +174,7 @@ export default function Dashboard() {
                             })}
                         </div>
                         <div className="flex justify-between text-sm text-text-secondary border-t border-white/10 pt-4">
-                            <span>Среднее: <strong className={getMoodColor(moodStats.avgMood)}>{moodStats.avgMood.toFixed(1)}</strong> {getMoodEmoji(moodStats.avgMood)}</span>
+                            <span className="flex items-center gap-1">Среднее: <strong className={getMoodColor(moodStats.avgMood)}>{moodStats.avgMood.toFixed(1)}</strong> {getMoodIcon(moodStats.avgMood)}</span>
                             <span>Записей: <strong>{moodStats.totalEntries}</strong></span>
                         </div>
                     </>
@@ -192,14 +203,15 @@ export default function Dashboard() {
                                     <span className="text-sm text-text-secondary">
                                         {ts.count}× отмечен
                                     </span>
-                                    <span className={`text-sm font-bold ${getMoodColor(ts.avgMood)}`}>
-                                        ø {ts.avgMood.toFixed(1)} {getMoodEmoji(ts.avgMood)}
+                                    <span className={`text-sm font-bold flex items-center gap-1 ${getMoodColor(ts.avgMood)}`}>
+                                        ø {ts.avgMood.toFixed(1)} {getMoodIcon(ts.avgMood)}
                                     </span>
                                 </div>
                             </div>
                         ))}
-                        <p className="text-xs text-text-secondary mt-4 italic">
-                            💡 Триггеры с низким средним настроением — это зоны внимания для КПТ работы
+                        <p className="text-xs text-text-secondary mt-4 italic flex items-center gap-2">
+                            <Lightbulb className="w-4 h-4" />
+                            Триггеры с низким средним настроением — это зоны внимания для КПТ работы
                         </p>
                     </div>
                 ) : (
@@ -217,16 +229,28 @@ export default function Dashboard() {
                 <h2 className="text-xl font-bold mb-4">Быстрые действия</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <Link to="/journal">
-                        <Button variant="secondary" fullWidth>📝 Дневник</Button>
+                        <Button variant="secondary" fullWidth className="flex items-center justify-center gap-2">
+                            <BookOpen className="w-4 h-4" />
+                            Дневник
+                        </Button>
                     </Link>
                     <Link to="/cbt">
-                        <Button variant="secondary" fullWidth>🧠 КПТ</Button>
+                        <Button variant="secondary" fullWidth className="flex items-center justify-center gap-2">
+                            <Brain className="w-4 h-4" />
+                            КПТ
+                        </Button>
                     </Link>
                     <Link to="/sobriety">
-                        <Button variant="secondary" fullWidth>🛡️ Трезвость</Button>
+                        <Button variant="secondary" fullWidth className="flex items-center justify-center gap-2">
+                            <Shield className="w-4 h-4" />
+                            Трезвость
+                        </Button>
                     </Link>
                     <Link to="/triggers">
-                        <Button variant="secondary" fullWidth>⚡ Триггеры</Button>
+                        <Button variant="secondary" fullWidth className="flex items-center justify-center gap-2">
+                            <Zap className="w-4 h-4" />
+                            Триггеры
+                        </Button>
                     </Link>
                 </div>
             </Card>

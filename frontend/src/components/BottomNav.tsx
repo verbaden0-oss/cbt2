@@ -1,13 +1,14 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { Home, BarChart3, BookOpen, Brain, Shield, Trophy, User } from 'lucide-react';
 
 const navItems = [
-    { path: '/', icon: '🏠', label: 'Главная' },
-    { path: '/dashboard', icon: '📊', label: 'Статистика' },
-    { path: '/journal', icon: '📝', label: 'Дневник' },
-    { path: '/cbt', icon: '🧠', label: 'КПТ' },
-    { path: '/sobriety', icon: '🛡️', label: 'Трезвость' },
+    { path: '/', icon: Home, label: 'Главная' },
+    { path: '/dashboard', icon: BarChart3, label: 'Статистика' },
+    { path: '/journal', icon: BookOpen, label: 'Дневник' },
+    { path: '/cbt', icon: Brain, label: 'КПТ' },
+    { path: '/sobriety', icon: Shield, label: 'Трезвость' },
 ];
 
 export default function BottomNav() {
@@ -35,9 +36,10 @@ export default function BottomNav() {
                                     : 'hover:bg-gray-100 dark:hover:bg-gray-800'
                                 }`}
                         >
-                            <span className={`text-xl mb-0.5 transition-transform ${isActive ? 'scale-110' : ''}`}>
-                                {item.icon}
-                            </span>
+                            {React.createElement(item.icon, {
+                                className: `w-5 h-5 mb-0.5 transition-transform ${isActive ? 'scale-110 text-primary' : 'text-text-secondary'}`,
+                                strokeWidth: isActive ? 2.5 : 2
+                            })}
                             <span className={`text-[10px] font-medium transition-colors ${isActive
                                     ? 'text-primary'
                                     : 'text-text-secondary'
@@ -61,9 +63,11 @@ export default function BottomNav() {
                             : 'hover:bg-gray-100 dark:hover:bg-gray-800'
                         }`}
                 >
-                    <span className="text-xl mb-0.5">
-                        {isAuthenticated ? '🏆' : '👤'}
-                    </span>
+                    {isAuthenticated ? (
+                        <Trophy className="w-5 h-5 mb-0.5 text-text-secondary" strokeWidth={2} />
+                    ) : (
+                        <User className="w-5 h-5 mb-0.5 text-text-secondary" strokeWidth={2} />
+                    )}
                     <span className={`text-[10px] font-medium ${location.pathname === '/login' || location.pathname === '/achievements'
                             ? 'text-primary'
                             : 'text-text-secondary'

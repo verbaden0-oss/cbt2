@@ -3,7 +3,18 @@ import { useJournalStore } from '../store/journalStore';
 import { useTriggersStore } from '../store/triggersStore';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { BookOpen, Plus } from 'lucide-react';
+import { 
+  BookOpen, 
+  Plus, 
+  Smile, 
+  Meh, 
+  Frown, 
+  Sad,
+  Gamepad2,
+  CheckCircle,
+  AlertTriangle,
+  DollarSign
+} from 'lucide-react';
 
 import { SwipeableCard } from '../components/ui/SwipeableCard';
 
@@ -42,7 +53,8 @@ export default function Journal() {
     // Create extended note with urge info
     let fullNote = note;
     if (hadUrge) {
-      fullNote += `\n\n🎰 Желание играть: ${urgeHandled ? '✅ Справился' : '⚠️ Было сложно'}`;
+      const urgeStatus = urgeHandled ? 'Справился' : 'Было сложно';
+      fullNote += `\n\nЖелание играть: ${urgeStatus}`;
     }
 
     await addEntry({
@@ -61,12 +73,12 @@ export default function Journal() {
     setIsFormOpen(false);
   }
 
-  const getMoodEmoji = (mood: number) => {
-    if (mood >= 8) return '😊';
-    if (mood >= 6) return '🙂';
-    if (mood >= 4) return '😐';
-    if (mood >= 2) return '😔';
-    return '😢';
+  const getMoodIcon = (mood: number, className: string = "w-5 h-5") => {
+    if (mood >= 8) return <Smile className={className} />;
+    if (mood >= 6) return <Meh className={className} />;
+    if (mood >= 4) return <Frown className={className} />;
+    if (mood >= 2) return <Sad className={className} />;
+    return <Sad className={className} />;
   };
 
   return (
@@ -97,8 +109,8 @@ export default function Journal() {
           <form onSubmit={handleAdd} className="space-y-4">
             {/* Mood Rating */}
             <div>
-              <label className="text-sm font-medium text-text-secondary mb-2 block">
-                Как настроение? {getMoodEmoji(rating)} {rating}/10
+              <label className="text-sm font-medium text-text-secondary mb-2 block flex items-center gap-2">
+                Как настроение? {getMoodIcon(rating, "w-4 h-4")} {rating}/10
               </label>
               <input
                 type="range"
@@ -149,22 +161,24 @@ export default function Journal() {
                   <button
                     type="button"
                     onClick={() => setUrgeHandled(true)}
-                    className={`flex-1 py-2 rounded-lg text-sm transition-all ${urgeHandled
+                    className={`flex-1 py-2 rounded-lg text-sm transition-all flex items-center justify-center gap-2 ${urgeHandled
                       ? 'bg-green-500 text-white'
                       : 'bg-gray-100 dark:bg-gray-800 text-text-secondary'
                       }`}
                   >
-                    ✅ Не играл
+                    <CheckCircle className="w-4 h-4" />
+                    Не играл
                   </button>
                   <button
                     type="button"
                     onClick={() => setUrgeHandled(false)}
-                    className={`flex-1 py-2 rounded-lg text-sm transition-all ${!urgeHandled && hadUrge
+                    className={`flex-1 py-2 rounded-lg text-sm transition-all flex items-center justify-center gap-2 ${!urgeHandled && hadUrge
                       ? 'bg-red-500 text-white'
                       : 'bg-gray-100 dark:bg-gray-800 text-text-secondary'
                       }`}
                   >
-                    💸 Играл
+                    <DollarSign className="w-4 h-4" />
+                    Играл
                   </button>
                 </div>
               </div>
@@ -269,11 +283,11 @@ export default function Journal() {
               <Card className="press-scale border-none shadow-none">
                 <div className="flex items-start gap-3">
                   {/* Mood indicator */}
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0 ${e.mood_rating >= 7 ? 'bg-green-100 dark:bg-green-900/30' :
-                    e.mood_rating >= 4 ? 'bg-yellow-100 dark:bg-yellow-900/30' :
-                      'bg-red-100 dark:bg-red-900/30'
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${e.mood_rating >= 7 ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' :
+                    e.mood_rating >= 4 ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400' :
+                      'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
                     }`}>
-                    {getMoodEmoji(e.mood_rating)}
+                    {getMoodIcon(e.mood_rating, "w-5 h-5")}
                   </div>
 
                   <div className="flex-1 min-w-0">
