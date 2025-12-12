@@ -26,11 +26,11 @@ if (process.env.CORS_ORIGIN && !allowedOrigins.includes(process.env.CORS_ORIGIN)
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin only in development (for tools like Postman, curl)
+    // Allow requests with no origin for health checks and system endpoints
+    // Some load balancers and monitoring tools don't send Origin header
     if (!origin) {
-      if (process.env.NODE_ENV === 'production') {
-        return callback(new Error('CORS: No origin header in production'));
-      }
+      // In production, allow no-origin requests (for health checks, monitoring, etc.)
+      // But we'll still validate Origin when it's present
       return callback(null, true);
     }
     
@@ -59,6 +59,34 @@ app.get('/api/health', async (req, res) => {
   } catch (err) {
     res.status(503).json({ status: 'unhealthy', database: 'disconnected' });
   }
+});
+
+// Middleware to validate Origin for API endpoints in production
+app.use((req, res, next) => {
+  // Skip origin check for health endpoint and root
+  if (req.path === '/api/health' || req.path === '/') {
+    return next();
+  }
+  
+  // In production, require Origin header for API endpoints
+  if (process.env.NODE_ENV === 'production' && req.path.startsWith('/api/')) {
+    const origin = req.headers.origin;
+    if (!origin) {
+      // Allow if it's a preflight OPTIONS request
+      if (req.method === 'OPTIONS') {
+        return next();
+      }
+      console.warn(`[CORS] API request without Origin header: ${req.method} ${req.path}`);
+      return res.status(403).json({ error: 'CORS: Origin header required for API requests' });
+    }
+    
+    if (!allowedOrigins.includes(origin)) {
+      console.warn(`[CORS] Blocked API request from unauthorized origin: ${origin}`);
+      return res.status(403).json({ error: `CORS: Origin ${origin} is not allowed` });
+    }
+  }
+  
+  next();
 });
 
 // Request Logging Middleware
